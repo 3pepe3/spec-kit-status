@@ -126,22 +126,7 @@ if [ -n "${SPECIFY_FEATURE_DIRECTORY:-}" ]; then
     FEATURE_DIR="$SPECIFY_FEATURE_DIRECTORY"
 elif [ -f "$SPECIFY_DIR/feature.json" ]; then
     FEATURE_DIR=$(python3 -c 'import json,sys; value=json.load(open(sys.argv[1])).get("feature_directory"); assert isinstance(value,str) and value, "Missing feature_directory"; print(value)' "$SPECIFY_DIR/feature.json")
-elif [ -n "${SPECIFY_FEATURE:-}" ]; then
-    FEATURE_DIR="$SPECS_DIR/$SPECIFY_FEATURE"
-elif [[ "$CURRENT_BRANCH" =~ ^([0-9]{3})- ]]; then
-    if [ -d "$SPECS_DIR/$CURRENT_BRANCH" ]; then
-        FEATURE_DIR="$SPECS_DIR/$CURRENT_BRANCH"
-    else
-        matches=()
-        for dir in "$SPECS_DIR/${BASH_REMATCH[1]}-"*/; do
-            [ -d "$dir" ] && matches+=("$dir")
-        done
-        if [ ${#matches[@]} -gt 1 ]; then
-            echo 'Ambiguous feature prefix; select SPECIFY_FEATURE_DIRECTORY explicitly' >&2
-            exit 1
-        fi
-        [ ${#matches[@]} -eq 0 ] || FEATURE_DIR="${matches[0]}"
-    fi
+
 fi
 if [ -n "$FEATURE_DIR" ]; then
     [[ "$FEATURE_DIR" = /* ]] || FEATURE_DIR="$REPO_ROOT/$FEATURE_DIR"
@@ -154,6 +139,10 @@ if [ -n "$FEATURE_DIR" ]; then
         "$REPO_ROOT"/specs/*) ;;
         *) echo 'Selected feature is outside this project specs directory' >&2; exit 1 ;;
     esac
+    if [ -n "${SPECIFY_FEATURE:-}" ] && [ "$SPECIFY_FEATURE" != "$(basename "$FEATURE_DIR")" ]; then
+        echo 'SPECIFY_FEATURE disagrees with the selected feature directory' >&2
+        exit 1
+    fi
 fi
 
 # --- Artifact checks -------------------------------------------------------

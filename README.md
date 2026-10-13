@@ -7,7 +7,7 @@ A Spec Kit extension that shows project status and SDD workflow progress.
 Shows a unified overview of your Spec Kit project:
 
 - **Project info** — name, detected AI agent(s), script type
-- **Current feature** — from an explicit directory, the current feature pointer, or a unique feature branch
+- **Current feature** — from an explicit directory or the current feature pointer
 - **SDD artifacts** — which files exist (spec.md, plan.md, tasks.md, etc.)
 - **Task progress** — completed/total with percentage from tasks.md
 - **Workflow phase** — which SDD step you're on (Plan → Tasks → Implement → Complete)
@@ -44,10 +44,10 @@ Or using the alias:
 ## Bash selection and task counting
 
 The Bash probe recognizes current Codex skills in `.agents/skills/`. Feature
-selection uses SPECIFY_FEATURE_DIRECTORY, then `.specify/feature.json`, then the
-older explicit SPECIFY_FEATURE label or a numbered feature branch. It never picks
-the latest feature on a maintenance branch. Invalid directories and ambiguous
-prefixes fail instead of reporting progress for another feature. Pointer reads do
+selection uses SPECIFY_FEATURE_DIRECTORY, then `.specify/feature.json`, matching
+Spec Kit 1.1.3. SPECIFY_FEATURE labels a selection; it cannot select a directory
+on its own and must agree with the selected directory name. Git branches never
+select or guess a feature. Invalid directories fail explicitly. Pointer reads do
 not modify the project. Task counting ignores fenced Markdown examples and accepts
 a final line without a newline. Checked counts describe task bookkeeping, not
 application acceptance. Run `python3 -m unittest discover -s tests -v` for Bash

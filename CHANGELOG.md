@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+- Maintain the 3pepe3 fork, preserving upstream authorship.
+- Support current Spec Kit layout and Codex skills on Bash.
+- Resolve explicit feature directories and pointers without guessing, reject conflicting labels, and exclude fenced task examples.
+
 ## v1.0.0 (2026-03-16)
 
 - Initial release

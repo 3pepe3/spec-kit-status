@@ -44,3 +44,16 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(json.loads(result.stdout)["phase"], "no_feature")
         self.env["SPECIFY_FEATURE_DIRECTORY"] = "specs/999-missing"
         self.assertNotEqual(self.run_status().returncode, 0)
+
+    def test_label_alone_does_not_select_a_feature(self):
+        self.env["SPECIFY_FEATURE"] = "001-example"
+        result = self.run_status()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["phase"], "no_feature")
+
+    def test_label_must_match_selected_directory(self):
+        self.env["SPECIFY_FEATURE_DIRECTORY"] = "specs/001-example"
+        self.env["SPECIFY_FEATURE"] = "002-other"
+        result = self.run_status()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("disagrees", result.stderr)
