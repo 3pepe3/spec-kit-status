@@ -16,13 +16,13 @@ Shows a unified overview of your Spec Kit project:
 ## Installation
 
 ```bash
-specify extension add status
+specify extension add status --from https://github.com/3pepe3/spec-kit-status/archive/refs/heads/osix-review.zip
 ```
 
-Or install from GitHub:
+The reviewed branch distribution (pin its commit when vendoring):
 
 ```bash
-specify extension add status --from https://github.com/KhawarHabibKhan/spec-kit-status/archive/refs/tags/v1.0.0.zip
+specify extension add status --from https://github.com/3pepe3/spec-kit-status/archive/refs/heads/osix-review.zip
 ```
 
 ## Usage
