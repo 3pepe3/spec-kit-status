@@ -16,13 +16,16 @@ def report(root, mode):
     integration_file=root/'.specify/integration.json'
     try: integration=json.loads(integration_file.read_text())
     except (OSError,ValueError): integration={};errors.append('Missing or invalid native integration state')
-    selector=os.environ.get('SPECIFY_FEATURE_DIRECTORY') or os.environ.get('SPECIFY_FEATURE')
+    selector=os.environ.get('SPECIFY_FEATURE_DIRECTORY')
     pointer=root/'.specify/feature.json'
     if not selector and pointer.is_file():
         try: selector=json.loads(pointer.read_text()).get('feature_directory')
         except (OSError,ValueError): errors.append('Invalid feature pointer')
     active=None
     if selector:
+        if Path(selector).is_absolute():
+            try:selector=str(Path(selector).relative_to(root/'specs'))
+            except ValueError:selector='../outside'
         name=str(selector).removeprefix('specs/')
         candidate=root/'specs'/name
         if not re.fullmatch(r'[0-9]{3}-[A-Za-z0-9-]+',name) or candidate.is_symlink() or candidate.resolve()!=candidate.absolute() or not candidate.is_dir():
