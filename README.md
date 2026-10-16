@@ -40,3 +40,14 @@ Or using the alias:
 ## Requirements
 
 - Spec Kit >= 0.1.0
+
+## Maintained native-layout compatibility
+
+The 3pepe3 fork v1.0.1 verifies the Bash entrypoint against Spec Kit1.2.1
+and Codex skills mode. It reads native integration state, `.specify/feature.json`
+and environment feature selection, the `.registry` extension registry, and
+only numbered feature directories. Shared contracts are not features.
+Fenced example checkboxes are excluded. Bash requires Python3 and emits JSON;
+`--json` is accepted for compatibility. It is read-only and reports errors with
+a nonzero exit. Original PowerShell scripts remain, but native1.2 compatibility
+has not been verified on Windows. Task counts never imply acceptance.
