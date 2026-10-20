@@ -37,7 +37,7 @@ class StatusContract:
 
     def run_status(self, selector=None, env_feature=None, success=True, cwd=None):
         env = os.environ.copy()
-        for key in ('SPECIFY_FEATURE', 'SPECIFY_INIT_DIR', 'GIT_DIR', 'GIT_WORK_TREE'):
+        for key in ('SPECIFY_FEATURE', 'SPECIFY_FEATURE_DIRECTORY', 'SPECIFY_INIT_DIR', 'GIT_DIR', 'GIT_WORK_TREE'):
             env.pop(key, None)
         if env_feature is not None:
             env['SPECIFY_FEATURE'] = env_feature
@@ -159,8 +159,6 @@ class StatusContract:
         self.assertEqual(self.run_status()['project_name'], renamed.name)
 
     def test_registry_count_and_invalid_json(self):
-        if not self.powershell and not shutil.which('jq'):
-            self.skipTest('jq unavailable: registry count explicitly unknown')
         registry = self.project / '.specify/extensions/.registry'
         registry.parent.mkdir()
         registry.write_text('{"extensions": {}}')

@@ -20,7 +20,7 @@ Consider nonempty input as a feature selector, such as `003` or `003-media`.
 Append `--feature "003"` to the Bash script command or `-Feature "003"` to the
 PowerShell script command, replacing `003` with the supplied selector as one
 quoted argument. With no input, append no feature flag; the script resolves the
-environment/branch or returns the all-feature summary.
+native feature context, then legacy environment/branch context, or returns the all-feature summary.
 Do not interpolate user input as shell code.
 
 ## Outline
@@ -29,11 +29,12 @@ Do not interpolate user input as shell code.
    on a nonzero exit, present the JSON error rather than inferring a feature.
 2. Present project name, detected agents and commands/skills, script type,
    Git branch, and selected `feature_name` (under `specs/`).
-3. Explain selection: explicit argument overrides `SPECIFY_FEATURE`, which
-   overrides a numbered `NNN-...` Git branch. An exact directory wins; otherwise
-   the three-digit prefix must match exactly one directory. Missing or ambiguous
-   selections fail. Main, detached HEAD, or no Git without a selector produce
-   an all-feature summary with `phase: no_feature`; never choose the latest.
+3. Explain selection: explicit argument overrides `SPECIFY_FEATURE_DIRECTORY`,
+   then `.specify/feature.json`, then legacy `SPECIFY_FEATURE` and a numbered
+   `NNN-...` Git branch. Native directories must be safe numbered children of
+   `specs/`. Legacy selectors use the exact directory or a unique three-digit
+   prefix. Missing, unsafe or ambiguous selections fail. With no context, return
+   `phase: no_feature` and the all-feature summary; never choose the latest.
 4. Show artifact existence for spec, plan, tasks, research, data model,
    quickstart, contracts and checklists. Checklist status is only checkbox
    bookkeeping. Fenced Markdown examples do not count.
@@ -49,3 +50,7 @@ Do not interpolate user input as shell code.
 7. Always disclose `acceptance: NOT_ASSESSED` and `live_status: NOT_QUERIED`.
    Do not translate checked tasks into product completion, release readiness,
    kickoff authorization or live GitHub status.
+
+`SPECIFY_INIT_DIR` selects the project root. Do not write or repair project state
+during status checks. Both wrappers require Python3 and accept `--json` / `-Json`
+for compatibility.
