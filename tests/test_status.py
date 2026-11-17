@@ -112,7 +112,7 @@ class StatusContract:
         self.assertTrue(agents['codex']['has_commands'])
 
     def test_fenced_examples_and_checkbox_boundaries(self):
-        tasks = '''- [X] T001 real
+        tasks = '''+ [X] T001 real
 ```md
 - [ ] fake
 ```
@@ -131,7 +131,7 @@ class StatusContract:
 '''
         directory = self.feature('003-fences', tasks)
         (directory / 'checklists').mkdir()
-        (directory / 'checklists/review.md').write_text('- [X] real\n```md\n- [ ] example\n```\n')
+        (directory / 'checklists/review.md').write_text('+ [X] real\n```md\n- [ ] example\n```\n')
         data = self.run_status('003')
         self.assertEqual(data['tasks'], {'completed': 1, 'total': 2})
         self.assertTrue(data['artifacts']['checklists_all_pass'])

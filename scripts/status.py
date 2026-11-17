@@ -22,7 +22,7 @@ def counts(path):
             elif mark[0] == fence[0] and len(mark) >= len(fence) and not tail.strip():
                 fence = None
             continue
-        row = re.match(r'^\s*[-*]\s+\[([ xX])\](?:\s|$)', line)
+        row = re.match(r'^\s*[-*+]\s+\[([ xX])\](?:\s|$)', line)
         if fence is None and row:
             total += 1
             checked += row[1].lower() == 'x'
