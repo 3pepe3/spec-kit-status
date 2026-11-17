@@ -6,14 +6,12 @@ It does not query GitHub, grant implementation authorization, or assess acceptan
 ## Installation
 
 The catalog and upstream v1.0.0 tag still contain the old implementation.
-Install this maintained compatibility branch explicitly:
+Install this reviewed fork commit:
 
 ```bash
-specify extension add status --from https://github.com/3pepe3/spec-kit-status/archive/refs/heads/fix/current-speckit-layout.zip
+specify extension add status --from https://github.com/3pepe3/spec-kit-status/archive/84a8fab34994a12883e9519fd52da9342c70deb4.zip
 ```
 
-For reproducible installations, replace the branch archive with a reviewed
-commit archive (`https://github.com/3pepe3/spec-kit-status/archive/<commit>.zip`).
 Use `--force` only when intentionally replacing an installation after preserving
 local customizations. Local development uses `specify extension add /path/to/checkout --dev`.
 
